@@ -1,0 +1,232 @@
+package rbtree;
+
+public class RBTree {
+Node root,parent;
+public RBTree(){
+root=null;
+parent=new Node(-1);
+parent.color=&#39;B&#39;;
+
+}
+public void set_parent(){
+
+root.p=parent;
+}
+
+public void RB_Insert(Node z)
+{
+Node y=null;
+Node x=root;
+
+while(x!=null)
+{
+y=x;
+if(z.data&lt;x.data)
+x=x.left;
+else
+x=x.right;
+
+}
+
+z.p=y;
+if(y==null)
+{ this.root=z;
+set_parent();
+}
+else if(z.data&lt;y.data)
+y.left=z;
+else
+y.right=z;
+
+z.right=null;
+z.left=null;
+z.color=&#39;R&#39;;
+RB_fixup(z);
+}
+public void RB_fixup(Node z)
+{
+Node y=null;
+while(z.p.color==&#39;R&#39;)
+{
+if(z.p==z.p.p.left)
+{
+y=z.p.p.right;
+if(y!=null)
+{
+if(y.color==&#39;R&#39;)
+{
+z.p.color=&#39;B&#39;;
+y.color=&#39;B&#39;;
+z.p.p.color=&#39;R&#39;;
+z=z.p.p;
+
+}
+else
+{
+if(z==z.p.right)
+{
+z=z.p;
+left_rotate(z);
+}
+z.p.color=&#39;B&#39;;
+z.p.p.color=&#39;R&#39;;
+right_rotate(z.p.p);
+}
+}
+else
+{
+if(z==z.p.right)
+{
+z=z.p;
+left_rotate(z);
+}
+z.p.color=&#39;B&#39;;
+z.p.p.color=&#39;R&#39;;
+right_rotate(z.p.p);
+}
+}
+else
+{
+y=z.p.p.left;
+if(y.color==&#39;R&#39;)
+{
+z.p.color=&#39;B&#39;;
+y.color=&#39;B&#39;;
+z.p.p.color=&#39;R&#39;;
+
+z=z.p.p;
+}
+else
+{
+if(z==z.p.left)
+{
+z=z.p;
+right_rotate(z);
+}
+z.p.color=&#39;B&#39;;
+z.p.p.color=&#39;R&#39;;
+left_rotate(z.p.p);
+}
+}
+}
+this.root.color=&#39;B&#39;;
+
+}
+
+public void left_rotate(Node x)
+{
+Node y=x.right;
+x.right=y.left;
+if(y.left!=null)
+y.left.p=x;
+
+y.p=x.p;
+if(x.p==null)
+{ this.root=y;
+set_parent();
+}
+else if(x==x.p.left)
+x.p.left=y;
+
+else
+x.p.right=y;
+
+y.left=x;
+x.p=y;
+}
+
+public void right_rotate(Node x)
+{
+Node y=x.left;
+x.left=y.right;
+if(y.right!=null)
+y.right.p=x;
+
+y.p=x.p;
+if(x.p==null)
+{
+this.root=y;
+set_parent();
+}
+else if(x==x.p.right)
+x.p.right=y;
+else
+x.p.left=y;
+
+y.right=x;
+x.p=y;
+}
+void printInorder(Node node)
+{
+if (node == null)
+return;
+
+/* first recur on left child */
+printInorder(node.left);
+
+/* then print the data of node */
+System.out.println(node.data +&quot; &quot;+node.color);
+
+/* now recur on right child */
+printInorder(node.right);
+}
+private void postOrder(Node node) {
+if (node == null) {
+return;
+}
+
+postOrder(node.left);
+postOrder(node.right);
+System.out.println(node.data +&quot; &quot;+node.color);
+}
+public static void main(String[] args)
+{
+
+Node n1=new Node(41);
+RBTree r=new RBTree();
+//root.color=&#39;B&#39;;
+r.root=n1;
+r.root.color=&#39;B&#39;;
+System.out.println(&quot;41 inserted&quot;);
+
+Node n2=new Node(38);
+r.RB_Insert(n2);
+System.out.println(&quot;38 inserted&quot;);
+
+Node n3=new Node(31);
+r.RB_Insert(n3);
+System.out.println(&quot;31 inserted&quot;);
+//System.out.println(r.root +&quot; &quot;+r.root.left);
+Node n4=new Node(12);
+r.RB_Insert(n4);
+System.out.println(&quot;12 inserted&quot;);
+Node n5=new Node(19);
+r.RB_Insert(n5);
+System.out.println(&quot;19 inserted&quot;);
+Node n6=new Node(8);
+r.RB_Insert(n6);
+System.out.println(&quot;8 inserted&quot;);
+System.out.println(&quot;finished&quot;);
+System.out.println(&quot;Postorder: &quot;);
+r.postOrder(r.root);
+System.out.println(&quot;Inorder: &quot;);
+r.printInorder(r.root);
+}
+
+}
+
+class Node
+{
+char color;
+int data;
+Node left=null;
+Node right=null;
+Node p=null;
+
+public Node(int v)
+{
+
+data=v;
+color=&#39;R&#39;;
+}
+}

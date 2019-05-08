@@ -1,0 +1,231 @@
+package ads_prac5;
+
+import java.util.*;
+
+
+class Node {
+
+    static int t;
+
+    int count;
+    int key[];
+    Node child[];
+
+    boolean leaf;
+
+    Node parent;
+
+    public Node() {
+    }
+
+    public Node(int t, Node parent) {
+        this.t = t;
+
+        this.parent = parent;
+
+        key = new int[2 * t - 1];
+
+        child = new Node[2 * t];
+        leaf = true;
+
+        count = 0;
+    }
+
+    public int getValue(int index) {
+        return key[index];
+    }
+
+    public Node getChild(int index) {
+        return child[index];
+    }
+
+}
+
+public class ADS_prac5 
+{
+
+    static int order;
+    Node root;
+
+    public ADS_prac5(int order) 
+    {
+        this.order = order;
+        root = new Node(order, null);
+    }
+
+    public Node allocate(Node root, int key) 
+    {
+        int i = 0;
+        
+        while (i < root.count && key > root.key[i]) {
+            i++;
+        }
+
+        if (i <= root.count && key == root.key[i]) 
+        {
+            return root;
+        }
+        if (root.leaf) 
+        {
+            return null;
+        } 
+        else 
+        {
+            return allocate(root.getChild(i), key);
+        }
+    }
+
+    public void split(Node x, int i, Node y) {
+        Node z = new Node(order, null);
+
+        z.leaf = y.leaf;
+
+        z.count = order - 1;
+        for (int j = 0; j < order - 1; j++) {
+            z.key[j] = y.key[j + order];
+
+        }
+        if (!y.leaf) {
+            for (int k = 0; k < order; k++) {
+                z.child[k] = y.child[k + order];
+            }
+        }
+
+        y.count = order - 1;
+
+        for (int j = x.count; j > i; j--) {
+
+            x.child[j + 1] = x.child[j];
+        }
+        x.child[i + 1] = z;
+
+        for (int j = x.count; j > i; j--) {
+            x.key[j + 1] = x.key[j];
+        }
+        x.key[i] = y.key[order - 1];
+
+        y.key[order - 1] = 0;
+
+        for (int j = 0; j < order - 1; j++) {
+            y.key[j + order] = 0;
+        }
+
+        x.count++;
+    }
+
+    public void nonfullInsert(Node x, int key) {
+        int i = x.count;
+
+        if (x.leaf) {
+            while (i >= 1 && key < x.key[i - 1]) {
+                x.key[i] = x.key[i - 1];
+
+                i--;
+            }
+
+            x.key[i] = key;
+            x.count++;
+
+        } else {
+            int j = 0;
+            while (j < x.count && key > x.key[j]) {
+                j++;
+            }
+
+            //	i++;
+            if (x.child[j].count == order * 2 - 1) {
+                split(x, j, x.child[j]);
+
+                if (key > x.key[j]) {
+                    j++;
+                }
+            }
+
+            nonfullInsert(x.child[j], key);
+        }
+    }
+
+    public void insert(ADS_prac5 t, int key) {
+        Node r = t.root;
+        if (r.count == 2 * order - 1) {
+            Node s = new Node(order, null);
+
+            t.root = s;
+
+            s.leaf = false;
+
+            s.count = 0;
+
+            s.child[0] = r;
+
+            split(s, 0, r);
+
+            nonfullInsert(s, key);
+        } 
+        else 
+            nonfullInsert(r, key);
+        
+    }
+
+    public void print(Node n) 
+    {
+        for (int i = 0; i < n.count; i++) {
+            System.out.print(n.getValue(i) + " ");
+        }
+
+        if (!n.leaf) {
+
+            for (int j = 0; j <= n.count; j++) {
+                if (n.getChild(j) != null) {
+                    System.out.println();
+                    print(n.getChild(j));
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        ADS_prac5 bt = new ADS_prac5(3);
+        char ch;
+        Scanner scan = new Scanner(System.in);
+
+        bt.insert(bt, 3);
+        bt.insert(bt, 6);
+        bt.insert(bt, 14);
+        bt.insert(bt, 1);
+        bt.insert(bt, 2);
+        bt.insert(bt, 4);
+        bt.insert(bt, 5);
+        bt.insert(bt, 7);
+        bt.insert(bt, 9);
+        bt.insert(bt, 17);
+        bt.insert(bt, 18);
+        bt.insert(bt, 20);
+        
+//        do {
+//
+//            System.out.println("Enter integer element to insert");
+//
+//            bt.insert(bt, scan.nextInt());
+//
+//            System.out.println("\nDo you want to continue (Type y or n) \n");
+//
+//            ch = scan.next().charAt(0);
+//
+//        } while (ch == 'Y' || ch == 'y');
+        System.out.println("Printing Btree ");
+        bt.print(bt.root);
+
+    }
+}
+
+
+------------------------------------------------------------------------
+OutPut:
+
+Printing Btree 
+3 6 14 
+1 2 
+4 5 
+7 9 
+17 18 20 BUILD SUCCESSFUL (total time: 2 seconds)

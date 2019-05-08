@@ -1,0 +1,61 @@
+
+import java.util.ArrayList;
+import java.util.Scanner;
+public class Patternmatch {
+    
+   
+
+    public static void main(String[] args) {
+        int y,z,j;
+        int flag=0;
+        String text="";
+        
+        int x=0;
+            y=0;
+            z=0;
+         ArrayList<String> string,pattern;
+         ArrayList<Integer> loc;
+         String pat="";
+        string=new ArrayList<>();
+        loc=new ArrayList<>();
+        
+        pattern=new ArrayList<>();
+        System.out.println("Enter  string");
+        Scanner sc=new Scanner(System.in);
+           text=sc.next();
+              
+        System.out.println("Enter the pattern");
+        
+           pat=sc.next();
+     
+            String h[]=pat.split("/");
+            int count=0;
+            String temp=text;
+            
+            
+            for(int k=0;k<h.length;k++)
+            {
+                if(temp.contains(h[k]))
+                {
+                    String g[]=temp.split(h[k],2);
+                    temp=g[1];
+                    
+                            
+                }
+                else
+                {
+                    flag=1;
+                    System.out.println(k);
+                }
+                    
+            }
+            if(flag==0)
+            {
+                System.out.println(" matched");
+            }
+            else
+            {
+                System.out.println("Not matched");
+            }
+    }
+}

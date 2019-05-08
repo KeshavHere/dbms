@@ -1,0 +1,42 @@
+package AdvancedDataStructures;
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class prac6 {
+    public static void main(String[] args) {
+        Scanner S = new Scanner(System.in);
+        System.out.println("Enter String: ");
+        String text = S.next();
+        System.out.println("Enter Pattern: (Gap as _)");
+        String pattern = S.next();
+        int[] indexes;
+        int flag = 0;
+        String[] a = pattern.split("_");
+        System.out.println(Arrays.toString(a));
+        indexes = new int[a.length];
+        for(int i = 0; i<a.length; i++){
+            indexes[i] = text.indexOf(a[i]);
+        }
+        for(int i = 0; i<a.length-1; i++){
+            if(indexes[i+1] < indexes[i]){
+                flag = 1;
+                break;
+            }
+        }
+        if(flag == 1){
+            System.out.println("No Pattern Found");
+        }else
+            System.out.println("Pattern Found");
+    }
+}
+
+
+Output:
+
+Enter String: 
+cbyckvayecseyclbaehcxuieail
+Enter Pattern: (Gap as _)
+ck_ec_ae_ai
+[ck, ec, ae, ai]
+Pattern Found

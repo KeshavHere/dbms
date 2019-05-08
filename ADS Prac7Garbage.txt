@@ -1,0 +1,153 @@
+//Aim--Demonstration Of Different cases of invocatioon of garbage Collection in java
+
+==================================================1. Object created inside a method :=================================================
+package ads_prac.pkg7;
+
+public class ADS_prac7 
+{
+    String obj_name; 
+      
+    public ADS_prac7(String obj_name)  
+    { 
+        this.obj_name = obj_name; 
+    } 
+      
+    static void show() 
+    { 
+        ADS_prac7 a = new ADS_prac7("a");  
+        display(); 
+          
+    } 
+    static void display() 
+    { 
+        ADS_prac7 b = new ADS_prac7("b");  
+    } 
+      
+    public static void main(String args[]) 
+    { 
+        System.out.println("Case 1: Object created inside a method :");
+        show(); 
+        System.gc(); 
+    } 
+      
+    @Override
+    protected void finalize() throws Throwable  
+    { 
+        System.out.println(this.obj_name + " successfully garbage collected"); 
+    } 
+    
+}
+==============================================
+o/p:
+Case 1: Object created inside a method :
+
+b successfully garbage collected
+a successfully garbage collected
+BUILD SUCCESSFUL (total time: 0 seconds)
+
+==============================================2. Reassigning the reference variable :=======================================================
+package ads_prac.pkg7;
+
+public class ReAssignment 
+{
+    String obj_name; 
+      
+    public ReAssignment(String obj_name)  
+    { 
+        this.obj_name = obj_name; 
+    } 
+      
+    public static void main(String args[]) 
+    { 
+        System.out.println("Case 2: Reassigning the reference variable :");
+        ReAssignment a = new ReAssignment("Assigned"); 
+        ReAssignment b = new ReAssignment("ReAssigned"); 
+          
+        a = b; 
+          
+        System.gc(); 
+    } 
+      
+    @Override
+    protected void finalize() throws Throwable  
+    { 
+        System.out.println(this.obj_name + " successfully garbage collected"); 
+    } 
+}
+====================================================
+o/p:
+Case 2: Reassigning the reference variable :
+Assigned successfully garbage collected
+BUILD SUCCESSFUL (total time: 0 seconds)
+
+
+====================================================3. Nullifying the reference variable :=======================================================
+
+package ads_prac.pkg7;
+
+public class NullifyReference 
+{
+    String obj_name; 
+      
+    public NullifyReference(String obj_name)  
+    { 
+        this.obj_name = obj_name; 
+    } 
+    
+    public static void main(String args[]) 
+    { 
+        System.out.println("Case 3: Nullifying the reference variable :");
+        NullifyReference a = new NullifyReference("NullifyReference"); 
+        a = null; 
+        System.gc(); 
+    } 
+      
+    @Override
+    protected void finalize() throws Throwable  
+    { 
+        System.out.println(this.obj_name + " successfully garbage collected"); 
+    } 
+}
+
+=====================================================
+
+o/p:
+Case 3: Nullifying the reference variable :
+NullifyReference successfully garbage collected
+BUILD SUCCESSFUL (total time: 0 seconds)
+
+
+================================================================4: Anonymous object====================================================================
+
+package ads_prac.pkg7;
+
+public class AnonymousObject 
+{
+    String obj_name; 
+      
+    public AnonymousObject(String obj_name)  
+    { 
+        this.obj_name = obj_name; 
+    } 
+      
+    public static void main(String args[]) 
+    { 
+        System.out.println("Case 4: Anonymous object");
+        new AnonymousObject("AnonymousObject");  
+        System.gc(); 
+    } 
+      
+    @Override
+    protected void finalize() throws Throwable  
+    { 
+        System.out.println(this.obj_name + " successfully garbage collected"); 
+    } 
+    
+}
+=========================================================
+
+o/p:
+Case 4: Anonymous object
+AnonymousObject successfully garbage collected
+BUILD SUCCESSFUL (total time: 0 seconds)
+

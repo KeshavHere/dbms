@@ -1,0 +1,147 @@
+//Creation, traversal and counting leaf nodes of Binary Tree.
+
+package javaapplication1;
+import java.util.Scanner;
+
+public class BinaryTree 
+{
+    BinaryTree left, right;
+    int ip[], n = 0, count = 0, root;
+    
+    public void input()
+    {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Enter the number of elements:");
+        n = in.nextInt();
+        ip = new int[n]; 
+        System.out.println("Enter the input values:");
+        
+        for(int i = 0; i < n; i++)
+        {
+            ip[i] = in.nextInt();
+        }
+    }
+    
+    public void creation()
+    {
+        root = ip[0];    
+    }
+    
+    public void traversal_preo()
+    {
+        for(int i = 0; i < n; i++)
+        {
+      //      if()
+            {
+                
+            }
+        }
+    }
+    
+    public void traversal_ino()
+    {
+        
+    }
+    
+    public void traversal_posto()
+    {
+        
+    }
+    
+    public void leafNodes()
+    {
+        for(int i = 0; i < n; i++)
+        {
+            if( (2*i) + 1 > n )
+            {
+                count++;
+            }   
+        }
+        
+        System.out.println("The number of leaf nodes in the tree are: " +count);       
+        System.out.println("The number of non-leaf nodes in the tree are: " +(n-count));
+    }
+    
+    public static void main(String[] args) 
+    {
+        BinaryTree b = new BinaryTree();
+        b.input();
+        b.traversal_preo();
+        b.traversal_ino();
+        b.traversal_posto();
+        b.leafNodes();
+    }    
+}
+
+
+
+
+
+
+package tree;
+
+class Node 
+{ 
+    int key; 
+    Node left, right; 
+
+    public Node(int item) 
+    { 
+        key = item; 
+        left = right = null; 
+    } 
+} 
+
+// A Java program to introduce Binary Tree 
+class Tree 
+{ 
+    // Root of Binary Tree 
+    Node root; 
+
+    // Constructors 
+    Tree(int key) 
+    { 
+        root = new Node(key); 
+    } 
+
+    Tree() 
+    { 
+        root = null; 
+    } 
+
+    public static void main(String[] args) 
+    { 
+        Tree tree = new Tree(); 
+
+        /*create root*/
+        tree.root = new Node(1); 
+
+        /* following is the tree after above statement 
+
+                1 
+                / \ 
+        null null	 */
+
+        tree.root.left = new Node(2); 
+        tree.root.right = new Node(3); 
+
+        /* 2 and 3 become left and right children of 1 
+                1 
+                / \ 
+                2	 3 
+        / \ / \ 
+        null null null null */
+
+
+        tree.root.left.left = new Node(4); 
+        /* 4 becomes left child of 2 
+                                1 
+                        /	 \ 
+                2		 3 
+                / \	 / \ 
+                4 null null null 
+        / \ 
+        null null 
+        */
+    } 
+} 
